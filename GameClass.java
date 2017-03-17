@@ -8,19 +8,16 @@ package gametry;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+
 import javax.swing.*;
 /*
  *
  * @author Apoorva
  */
-public class GameClass implements ActionListener,Runnable{
+public class GameClass implements Runnable{
 
 
 TextField t1;
@@ -62,7 +59,7 @@ but.setForeground(new java.awt.Color(102, 0, 0));
 //t.start();
 jp.setSize(860, 620);//our standard game pannel size
 jp.setOpaque(false);//to make buttons transparent
-        
+      
 jp.setVisible(true);
 }
 
@@ -130,17 +127,17 @@ synchronized public void run()
 		try {
 			TimeUnit.SECONDS.sleep(1);
 			}
-		catch (InterruptedException e)
+		catch (InterruptedException iex)
 		{
 				//;
 		}
 		jp.removeAll();
 	}
 	
-	int sol=(int)(Math.random()*5)+1;
-	j2=new JLabel("Enter no. of times this image appeared");
+	int solution=(int)(Math.random()*5)+1;
+	j2=new JLabel("Enter no. of times this image appeared and SUBMIT");
         j2.setFont(new java.awt.Font("Tahoma", 0, 18));
-	switch(sol)
+	switch(solution)
 	{case 1:b5=new JButton("",i1);
 	ans=a;
 	break;
@@ -164,70 +161,16 @@ synchronized public void run()
         gbc.gridx=100;
 	gbc.gridy=0;
 	gridbag.setConstraints(t1,gbc);
-	gbc.gridx=140;
-	gbc.gridy=0;
-	gridbag.setConstraints(but,gbc);
-        jp.add(but);
         jp.add(t1);	
         gbc.gridx=0;
 	gbc.gridy=200;
 	gridbag.setConstraints(b5,gbc);
 	jp.add(b5);
 	jp.revalidate();
-	but.addActionListener(this);
+	
 }
 
-public void actionPerformed(ActionEvent ae)
-{
-	Object ob;
-	ob=ae.getSource();
-	if (but==ob){
-		//Button listener
-	String input=t1.getText();
-	if (ans==Integer.parseInt(input))
-        {
-           switch(level)
-	{case 1:{
-            JOptionPane.showMessageDialog(null,"Congratulations.You won level 1.","Level 1 won.",1);
-            //level2();
-           /* try {
-			TimeUnit.SECONDS.sleep(1);
-			}
-		catch (InterruptedException e)
-		{
-				//;
-		}
-            Max=12;
-            Thread lvl2=new Thread(this);
-           lvl2.start();
-            level=2;*/
-            break;
-	}
-        case 2:{
-            jp.removeAll();
-           
-            JOptionPane.showMessageDialog(null,"Congratulations.You won the game.\n"+
-                    "Press NEXT to proceed further.","Won",1);
-         
-            level=3;
-        break;}}}
-	else
-	{
-            jp.remove(but);
-            jp.remove(j2);
-            jp.remove(b5);
-            jp.remove(t1);
-            Max=8;
-            JOptionPane.showMessageDialog(null,"Your answer is incorrect.\n"+
-                    "Press RETRY button to try again.","Lost",0);
-            level=1;
-            
-	}	
-	jp.repaint();
-	jp.revalidate();
-	
-	}
-}
+
 }
 
 
