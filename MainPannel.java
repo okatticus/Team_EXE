@@ -2,7 +2,6 @@ package gametry;
 
 import java.io.IOException;
 import java.util.*;
-import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +16,8 @@ import java.awt.event.ActionListener;
      GridBagLayout gbl;
      GridBagConstraints gbc;
      JPanel top,left,right;
-     JButton help,next,retry;
+     JButton help,next,retry,but;
+     JLabel b_Image;
  public MainPannel() throws IOException{
         top=new JPanel();
        /* card=new CardLayout();
@@ -25,6 +25,11 @@ import java.awt.event.ActionListener;
         add(top);
         left=new JPanel();
         right=new JPanel();
+        //right.setBackground(new java.awt.Color(255, 0, 100));
+       /*   b_Image = new JLabel();
+          b_Image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/aaback.jpg"))); 
+        add(b_Image);
+        b_Image.setBounds(0, 0, 860, 620);*/
         gbl=new GridBagLayout();
         gbc=new GridBagConstraints();
         gbc.anchor=GridBagConstraints.NORTH;
@@ -36,6 +41,10 @@ import java.awt.event.ActionListener;
 	gbc.gridy=4;
         gbl.setConstraints(right,gbc);
         top.add(right);
+        but=new JButton("Submit");
+        but.setBackground(new java.awt.Color(255, 255, 255));
+        but.setFont(new java.awt.Font("Tahoma", 0, 18)); 
+        but.setForeground(new java.awt.Color(102, 0, 0));
         help=new JButton("Help");
         help.setBackground(new java.awt.Color(255, 255, 255));
         help.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -49,14 +58,18 @@ import java.awt.event.ActionListener;
         next.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         next.setForeground(new java.awt.Color(102, 0, 0));
         game = new GameClass();
+        
         Thread tr=new Thread(game);
            tr.start();
         left.add(game.jp);
+        right.add(but);
         right.add(help);
         right.add(retry);
         right.add(next);
+        but.addActionListener(this);
         help.addActionListener(this);
         retry.addActionListener(this);
+        next.addActionListener(this);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         left.setSize(860,620);
         right.setSize(60,620);
@@ -93,7 +106,7 @@ import java.awt.event.ActionListener;
             left.add(game.jp);
            left.revalidate();
          }
-        else// if(ob==next)
+        else if(ob==next)
         {
             game.Max=12;
             left.remove(game.jp);
@@ -104,6 +117,48 @@ import java.awt.event.ActionListener;
             left.add(game.jp);
            left.revalidate();
         }
+
+        else if (but==ob){
+		//Button listener
+	String input=game.t1.getText();
+	if (game.ans==Integer.parseInt(input))
+        {
+           switch(game.level)
+	{case 1:{
+            JOptionPane.showMessageDialog(null,"Congratulations.You won level 1.\nClick the NEXT button for level 2","Level 1 won.",1);
+            //level2();
+           
+            break;
+	}
+        case 2:{
+            game.jp.removeAll();
+           
+            JOptionPane.showMessageDialog(null,"Congratulations.You won the game.\n"+
+                    "Press NEXT to proceed further.","Won",1);
+         
+            game.level=3;
+        break;}}}
+	else
+	{
+            game.jp.remove(but);
+            game.jp.remove(game.j2);
+            game.jp.remove(game.b5);
+            game.jp.remove(game.t1);
+            game.Max=8;
+            JOptionPane.showMessageDialog(null,"Your answer is incorrect.\n"+
+                    "Press RETRY button to try again.","Lost",0);
+            game.level=1;
+            
+	}	
+	game.jp.repaint();
+	game.jp.revalidate();
+	
+	}
+
+
+
+
+
    }
 
 public static void main(String args[]) {
